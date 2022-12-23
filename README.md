@@ -4,35 +4,16 @@ Everything you need to build a Svelte project, powered by [`create-svelte`](http
 
 ## Creating a project
 
-If you're seeing this, you've probably already done this step. Congrats!
+> Work In Progress!
 
-```bash
-# create a new project in the current directory
-npm create svelte@latest
+Color Scale Generator is a quick little app to help generate colors on a scale There are other color generators out there such as [hihayk.github.io/scale](https://hihayk.github.io/scale/#4/4/75/75/0/0/0/0/C62617/204/38/23/white) and [colordesigner.io](https://colordesigner.io/gradient-generator/?mode=lch#FBE6E6-27070D) but they didn't do exactly what I wanted. 
 
-# create a new project in my-app
-npm create svelte@latest my-app
-```
+This app will let you set however many colors you want, and specify which colors you want fixed and generate all others. I personally like to generate colors from 50, 100-900 for my website styles, and generally speaking from white to black.
+
+I am just starting out on this project, but I chose to use SvelteKit and Tailwind.css to continue learning those technologies.
 
 ## Developing
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
-
 ```bash
 npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
 ```
-
-## Building
-
-To create a production version of your app:
-
-```bash
-npm run build
-```
-
-You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.
