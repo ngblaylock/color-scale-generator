@@ -1,8 +1,4 @@
-# create-svelte
-
-Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/master/packages/create-svelte).
-
-## Creating a project
+# Color Scale Generator
 
 > Work In Progress!
 
@@ -16,4 +12,6 @@ I am just starting out on this project, but I chose to use SvelteKit and Tailwin
 
 ```bash
 npm run dev
+# or
+npm run dev -- --open
 ```

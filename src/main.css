@@ -6,4 +6,7 @@
   a {
     @apply underline decoration-dotted uppercase;
   }
+  input, select{
+    @apply text-black;
+  }
 }
