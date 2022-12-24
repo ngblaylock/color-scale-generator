@@ -28,6 +28,26 @@
 	onMount(() => {
 		hex = $background.replace('#', '');
 	});
+	const onHexBlur = () => {
+		console.log('blurred');
+		if (chroma.valid(hex)) {
+			hex = chroma(hex).hex().replace('#', '');
+		} else {
+			hex = 'ffffff';
+		}
+	};
+	const onRgbBlur = (color: 'r' | 'g' | 'b') => {
+		if (chroma.valid(`rgb(${r}, ${g}, ${b})`)) {
+			let rgb = chroma(`rgb(${r}, ${g}, ${b})`).rgb();
+			if (color == 'r') r = rgb[0];
+			if (color == 'g') g = rgb[1];
+			if (color == 'b') b = rgb[2];
+		} else {
+			if (color == 'r') r = 255;
+			if (color == 'g') g = 255;
+			if (color == 'b') b = 255;
+		}
+	};
 </script>
 
 {#if $mode === 'HEX'}
@@ -35,7 +55,12 @@
 		<span class="mr-2">{label}</span>
 		<span class="custom-input rounded-md">
 			<span class=" text-gray-500 pointer-events-none">#</span>
-			<input type="text" bind:value={hex} class="focus:ring-0 focus:ring-offset-0" />
+			<input
+				type="text"
+				bind:value={hex}
+				class="focus:ring-0 focus:ring-offset-0"
+				on:blur={onHexBlur}
+			/>
 		</span>
 	</label>
 {:else if $mode === 'RGB'}
@@ -44,15 +69,36 @@
 		<span class="custom-input rounded-md">
 			<span class="border-r">
 				<label class="text-gray-500 pointer-events-none" for="r">R</label>
-				<input type="number" id="r" min="0" max="255" bind:value={r} />
+				<input
+					type="number"
+					id="r"
+					min="0"
+					max="255"
+					bind:value={r}
+					on:blur={() => onRgbBlur('r')}
+				/>
 			</span>
 			<span class="border-r">
 				<label class="text-gray-500 pointer-events-none" for="g">G</label>
-				<input type="number" id="g" min="0" max="255" bind:value={g} />
+				<input
+					type="number"
+					id="g"
+					min="0"
+					max="255"
+					bind:value={g}
+					on:blur={() => onRgbBlur('g')}
+				/>
 			</span>
 			<span>
 				<label class="text-gray-500 pointer-events-none" for="b">B</label>
-				<input type="number" id="b" min="0" max="255" bind:value={b} />
+				<input
+					type="number"
+					id="b"
+					min="0"
+					max="255"
+					bind:value={b}
+					on:blur={() => onRgbBlur('b')}
+				/>
 			</span>
 		</span>
 	</fieldset>
