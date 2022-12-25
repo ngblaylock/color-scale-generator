@@ -9,7 +9,12 @@
 		if (chroma.valid(background)) {
 			let white = chroma.contrast(background, 'white');
 			let black = chroma.contrast(background, 'black');
-			console.log('background', background, 'white', white, 'black', black);
+			// console.log(
+			// 	'Contrast:',
+			// 	black > white ? black : white,
+			// 	'\nAlt:',
+			// 	black > white ? white : black
+			// );
 			return black < white ? 'dark' : 'light';
 		} else {
 			return 'light';
