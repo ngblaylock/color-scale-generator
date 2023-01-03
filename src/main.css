@@ -4,9 +4,20 @@
 
 @layer base {
   a {
-    @apply underline decoration-dotted uppercase;
+    @apply underline decoration-gray-300 underline-offset-4;
   }
   input, select{
     @apply text-black uppercase;
+    
   }
+  /* Remove number up/down arrows */
+	input::-webkit-outer-spin-button,
+	input::-webkit-inner-spin-button {
+		-webkit-appearance: none;
+		margin: 0;
+	}
+	input[type='number'] {
+		-moz-appearance: textfield;
+		appearance: textfield;
+	}
 }

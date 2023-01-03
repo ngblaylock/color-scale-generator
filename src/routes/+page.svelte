@@ -1,8 +1,12 @@
 <script lang="ts">
-	import { background, mode } from '$lib/stores';
+	import { background, mode, colorNum } from '$lib/stores';
 	import chroma from 'chroma-js';
 	import Icon from '@iconify/svelte';
 	import ColorInput from '$lib/ColorInput.svelte';
+	import { onMount } from 'svelte';
+
+	let colors: string[] = [];
+
 	const getContrast = (color: string | undefined) => {
 		if (!color) return;
 		let black = chroma.contrast(color, 'black');
@@ -13,16 +17,16 @@
 		let background = color;
 		let i = index;
 		if (!background) {
-			background = `#${index}${index}${index}${index}${index}${index}`;
+			background = `#f9f9f9`;
 			let pinned = pinnedIndexes();
-			if(pinned.length){
+			if (pinned.length) {
 				// there are pinned colors in the middle
-			} else{
-				// there aren't pinned colors in the middle. Get colors.length
+			} else {
 				let min = 0;
 				let max = colors.length - 1;
-				background = chroma.scale([colors[min].code, colors[max].code])(index / 6).hex();
-				
+				background = chroma
+					.scale([colors[min], colors[max]])(index / max)
+					.hex();
 			}
 		}
 		return background;
@@ -32,61 +36,52 @@
 			getBackground(color, index)
 		)}`;
 	};
-	let colors = [
-		{
-			code: '#ffffff'
-		},
-		{
-			code: ''
-		},
-		{
-			code: ''
-		},
-		{
-			code: ''
-		},
-		{
-			code: ''
-		},
-		{
-			code: ''
-		},
-		{
-			code: '#000000'
+	const updateNumColors = (colorNum: number) => {
+		let tempColors = [];
+		
+		tempColors.push(colors[0] || '#ffffff');
+		let i = colorNum - 2;
+		for (let x = 0; x < i; x++) {
+			tempColors.push('');
 		}
-	];
+		tempColors.push(colors[colors.length - 1] || '#000000');
+		colors = tempColors;
+	};
+
 	$: pinnedIndexes = () => {
 		let pi: number[] = [];
 		colors.forEach((color, index) => {
-			if (color.code && index !== 0 && index !== colors.length - 1) {
+			if (color && index !== 0 && index !== colors.length - 1) {
 				pi.push(index);
 			}
 		});
 		return pi;
 	};
+
+	$: updateNumColors($colorNum);
 </script>
 
 <div class="flex justify-center">
 	{#each colors as color, index}
-		<div class="color-box" style={getStyle(color.code, index)}>
+		<div class="color-box" style={getStyle(color, index)}>
 			<div>
 				<div class="flex flex-1 justify-center mb-2">
-					{#if color.code}
+					{#if color}
 						{#if index !== 0 && index !== colors.length - 1}
 							<button><Icon width="20" icon="mdi:drag" /></button>
-							<button on:click={() => (color.code = '')}><Icon width="20" icon="mdi:pin" /></button>
+							<button on:click={() => (color = '')}><Icon width="20" icon="mdi:pin" /></button>
 						{/if}
 						<button><Icon width="20" icon="mdi:eyedropper-variant" /></button>
 					{:else}
-						<button on:click={() => (color.code = '#ffffff')} class="pin-color"
+						<button on:click={() => (color = '#ffffff')} class="pin-color"
 							><Icon width="20" icon="mdi:pin-outline" /></button
 						>
 					{/if}
 				</div>
-				{#if color.code}
-					<ColorInput bind:value={color.code} />
+				{#if color}
+					<ColorInput bind:value={color} />
 				{:else}
-					<div class="flex justify-center uppercase">{getBackground(color.code, index)}</div>
+					<div class="flex justify-center uppercase">{getBackground(color, index)}</div>
 				{/if}
 			</div>
 		</div>

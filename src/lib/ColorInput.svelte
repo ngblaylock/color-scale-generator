@@ -205,14 +205,4 @@
 	.custom-input input:focus {
 		outline: none;
 	}
-	/* Remove number up/down arrows */
-	input::-webkit-outer-spin-button,
-	input::-webkit-inner-spin-button {
-		-webkit-appearance: none;
-		margin: 0;
-	}
-	input[type='number'] {
-		-moz-appearance: textfield;
-		appearance: textfield;
-	}
 </style>
