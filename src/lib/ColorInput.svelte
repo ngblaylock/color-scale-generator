@@ -5,7 +5,7 @@
 
 	export let label: string = '';
 	export let value: string = '';
-	export let hex: string = '';
+	export let hex: string = value.replace('#', '');
 	export let r = 255;
 	export let g = 255;
 	export let b = 255;
@@ -14,12 +14,12 @@
 	export let l = 0.5;
 
 	const normalizeColors = () => {
-		hex = chroma($background).hex().replace('#', '');
-		let rgb = chroma($background).rgb();
+		hex = chroma(value).hex().replace('#', '');
+		let rgb = chroma(value).rgb();
 		r = rgb[0];
 		g = rgb[1];
 		b = rgb[2];
-		let hsl = chroma($background).hsl();
+		let hsl = chroma(value).hsl();
 		h = hsl[0] || 360;
 		s = hsl[1];
 		l = hsl[2];
@@ -35,8 +35,8 @@
 		} else if (mode === 'HEX' && chroma.valid(hex)) {
 			normalizeColors();
 			value = chroma(hex).hex();
-		} else {
-			value = '#ffffff';
+			// } else {
+			// 	value = '#ffffff';
 		}
 	};
 
@@ -56,9 +56,6 @@
 		value = valid ? chroma(hex).hex() : 'ffffff';
 	}
 
-	onMount(() => {
-		hex = $background.replace('#', '');
-	});
 	const onHexBlur = () => {
 		if (chroma.valid(hex)) {
 			hex = chroma(hex).hex().replace('#', '');
@@ -94,7 +91,9 @@
 
 {#if $mode === 'HEX'}
 	<label class="flex">
-		<span class="mr-2">{label}</span>
+		{#if label}
+			<span class="mr-2">{label}</span>
+		{/if}
 		<span class="custom-input rounded-md">
 			<span class=" text-gray-500 pointer-events-none">#</span>
 			<input
@@ -107,7 +106,9 @@
 	</label>
 {:else if $mode === 'RGB'}
 	<fieldset class="flex">
-		<legend class=" float-left pr-2">{label}</legend>
+		{#if label}
+			<legend class=" float-left pr-2">{label}</legend>
+		{/if}
 		<span class="custom-input rounded-md">
 			<span class="border-r">
 				<label class="text-gray-500 pointer-events-none" for="r">R</label>
@@ -146,7 +147,9 @@
 	</fieldset>
 {:else if $mode === 'HSL'}
 	<fieldset class="flex">
-		<legend class=" float-left pr-2">{label}</legend>
+		{#if label}
+			<legend class=" float-left pr-2">{label}</legend>
+		{/if}
 		<span class="custom-input rounded-md">
 			<span class="border-r">
 				<label class="text-gray-500 pointer-events-none" for="h">H</label>
@@ -197,6 +200,7 @@
 		background: transparent;
 		max-width: 48px;
 		text-align: center;
+		display: inline-block;
 	}
 	.custom-input input:focus {
 		outline: none;

@@ -7,6 +7,7 @@ module.exports = {
     extend: {
       fontFamily: {
         'sans': ['Barlow Condensed', ...defaultTheme.fontFamily.sans],
+        'mono': ['Fira Code', ...defaultTheme.fontFamily.mono],
       },
     }
   },

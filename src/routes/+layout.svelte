@@ -4,6 +4,7 @@
 	import Footer from './Footer.svelte';
 	import Settings from './Settings.svelte';
 	import chroma from 'chroma-js';
+	import { Body } from 'svelte-body';
 
 	const getContrast = (background: string) => {
 		if (chroma.valid(background)) {
@@ -24,9 +25,10 @@
 	$: theme = getContrast($background);
 </script>
 
+<Body style="background: {chroma.valid($background) ? $background : 'white'};" />
+
 <div
 	class="flex flex-col min-h-screen justify-between {theme == 'dark' ? 'text-white' : 'text-black'}"
-	style="background: {chroma.valid($background) ? $background : 'white'};"
 >
 	<div class="p-4 flex justify-between items-center">
 		<h1 class=" text-4xl">Color Scale Generator</h1>
